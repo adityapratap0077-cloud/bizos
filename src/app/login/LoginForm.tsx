@@ -1,0 +1,96 @@
+'use client';
+
+import { useState, type FormEvent } from 'react';
+import Link from 'next/link';
+import { signInAction } from '@/actions/auth';
+import { validateCredentials, type FieldErrors } from '@/lib/validations';
+import { Button, Card, Input } from '@/components/ui';
+import { useToast } from '@/components/Toast';
+
+export default function LoginForm() {
+  const { toast } = useToast();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [formError, setFormError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    setFormError('');
+
+    const fieldErrors = validateCredentials({ email, password });
+    setErrors(fieldErrors);
+    if (Object.keys(fieldErrors).length > 0) return;
+
+    setLoading(true);
+    try {
+      // A successful sign-in redirects server-side (redirect() throws),
+      // so reaching the next line always means failure.
+      const result = await signInAction({ email, password });
+      if (!result.ok) {
+        const message = result.error ?? 'Sign in failed. Please try again.';
+        setFormError(message);
+        toast(message, 'error');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="mx-auto mt-16 max-w-md">
+      <div className="mb-6 text-center">
+        <Link href="/" className="text-2xl font-bold tracking-tight text-gray-900">
+          BizOS
+        </Link>
+        <p className="mt-2 text-sm text-gray-500">
+          Sign in to manage your business dashboard.
+        </p>
+      </div>
+      <Card>
+        <form onSubmit={handleSubmit} noValidate className="space-y-4">
+          {formError && (
+            <div
+              role="alert"
+              className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+            >
+              {formError}
+            </div>
+          )}
+          <Input
+            label="Email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={errors.email}
+            disabled={loading}
+          />
+          <Input
+            label="Password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            error={errors.password}
+            disabled={loading}
+          />
+          <Button type="submit" loading={loading} className="w-full" size="lg">
+            {loading ? 'Signing in…' : 'Sign in'}
+          </Button>
+        </form>
+        <p className="mt-6 text-center text-sm text-gray-500">
+          Don&apos;t have an account?{' '}
+          <Link href="/signup" className="font-medium text-indigo-600 hover:text-indigo-700">
+            Sign up
+          </Link>
+        </p>
+      </Card>
+    </div>
+  );
+}
