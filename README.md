@@ -1,28 +1,78 @@
-# BizOS — Run your business from one simple dashboard
+<div align="center">
 
-BizOS is a free, zero-cost **Business OS** for freelancers and small businesses:
-manage **leads, customers, tasks, bookings and invoices** from one simple dashboard.
+# BIZOS
 
-- **Stack:** Next.js 16 (App Router) · TypeScript (strict) · Tailwind CSS · Supabase (Auth + PostgreSQL + Row Level Security) · Vercel
-- **Cost:** $0 — only free-tier services, no paid APIs, no paid dependencies
-- **Runtime dependencies:** `@supabase/supabase-js`, `@supabase/ssr`, `jspdf` — nothing else
+### Run your business from one simple dashboard
+
+![BizOS](https://img.shields.io/badge/BIZOS-2026-%23F2F0EB?style=for-the-badge&labelColor=%23060608)
+![Status](https://img.shields.io/badge/STATUS-LIVE-%237A1212?style=for-the-badge&labelColor=%23060608)
+![Stack](https://img.shields.io/badge/STACK-NEXT.JS_+_SUPABASE-%23060608?style=for-the-badge&labelColor=%23060608)
+![Cost](https://img.shields.io/badge/COST-%240_FREE_TIER-%23060608?style=for-the-badge&labelColor=%23060608)
+
+A zero-cost Business OS for freelancers and small businesses —
+**leads, customers, tasks, bookings and invoices** in one dashboard.
+
+[Live Demo](https://bizos-gamma.vercel.app) • [GitHub](https://github.com/adityapratap0077-cloud/bizos)
+
+</div>
 
 ---
 
-## 1. Clone the repository
+## What it does
+
+BizOS turns the chaos of running a small business into one calm screen.
+Sign up, and your business is provisioned automatically — then track a lead
+from first contact to paid invoice without leaving the app:
+
+- **Dashboard** — live revenue, counts and recent activity at a glance
+- **Leads** — capture prospects, convert them to customers in one click
+- **Customers** — profiles with full history (customers/[id])
+- **Tasks** — track follow-ups and to-dos
+- **Bookings** — schedule and manage appointments
+- **Invoices** — raise numbered invoices (INV-0001, INV-0002…), mark paid, download as PDF
+- **Settings & Profile** — business details, currency, account management
+- **Activity log** — every action recorded per business
+
+## Tech
+
+| Layer | Choice |
+| :--- | :--- |
+| Framework | Next.js 16 (App Router) · TypeScript (strict) · React 19 |
+| Styling | Tailwind CSS |
+| Backend | Supabase — Auth + PostgreSQL + Row Level Security |
+| PDF | jsPDF, generated fully client-side |
+| Deploy | Vercel |
+
+**Runtime dependencies:** `@supabase/supabase-js`, `@supabase/ssr`, `jspdf` —
+nothing else. No paid APIs, no paid dependencies.
+
+## Data isolation
+
+Every business-owned row carries `business_id`. Row Level Security policies
+allow access only when the business belongs to the signed-in user
+(`owner_id = auth.uid()`). Server actions resolve the tenant via
+`requireBusiness()` on every request — client-supplied IDs are never trusted.
+The anon key is the only key ever used; the service-role key is never in the
+app.
+
+---
+
+## Getting started
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/bizos.git
+git clone https://github.com/adityapratap0077-cloud/bizos.git
 cd bizos
 npm install
 ```
 
-## 2. Create a free Supabase project
+### 2. Create a free Supabase project
 
-1. Go to [supabase.com/dashboard](https://supabase.com/dashboard) and create a **free** project.
-2. Wait for the project to finish provisioning (1–2 minutes).
+Go to [supabase.com/dashboard](https://supabase.com/dashboard) and create a
+**free** project. Wait for provisioning to finish (1–2 minutes).
 
-## 3. Add the environment variables
+### 3. Add the environment variables
 
 ```bash
 cp .env.example .env.local
@@ -31,31 +81,31 @@ cp .env.example .env.local
 Then open your Supabase project → **Project Settings → API** and copy:
 
 | Variable | Where to find it |
-|---|---|
+| :--- | :--- |
 | `NEXT_PUBLIC_SUPABASE_URL` | Project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `anon` / `public` key |
 
-> **Security note:** BizOS never uses the Supabase **service-role** key. Every query
-> runs with the anon key under strict Row Level Security, so a user can only ever
-> read or modify their own business data. Do not add a service-role key anywhere.
+> **Security note:** BizOS never uses the Supabase **service-role** key. Every
+> query runs with the anon key under strict Row Level Security, so a user can
+> only ever read or modify their own business data. Do not add a service-role
+> key anywhere.
 
-## 4. Run the database schema
+### 4. Run the database schema
 
 1. In Supabase, open the **SQL Editor** → **New query**.
 2. Paste the entire contents of `supabase/migrations/001_initial.sql` and press **Run**.
 
-This creates all tables (`profiles`, `businesses`, `leads`, `customers`, `tasks`,
-`bookings`, `invoices`, `invoice_items`, `activity_logs`), enables Row Level
-Security with owner-only policies, and installs two triggers:
+This creates all tables (`profiles`, `businesses`, `leads`, `customers`,
+`tasks`, `bookings`, `invoices`, `invoice_items`, `activity_logs`), enables
+Row Level Security with owner-only policies, and installs two triggers:
 
-- `on_auth_user_created` — when a user signs up, a `profiles` row and a default
-  `businesses` row are created automatically.
+- `on_auth_user_created` — when a user signs up, a `profiles` row and a default `businesses` row are created automatically.
 - `set_updated_at_trigger` — keeps `updated_at` fresh on every update.
 
 It also installs `next_invoice_number(business_id)`, a race-safe per-business
 invoice-number generator (`INV-0001`, `INV-0002`, …).
 
-## 5. Run the application locally
+### 5. Run the application locally
 
 ```bash
 npm run dev
@@ -75,7 +125,7 @@ Type-check without running the dev server:
 npm run typecheck
 ```
 
-## 6. Deploy to Vercel
+### 6. Deploy to Vercel
 
 1. Push this repo to GitHub.
 2. Go to [vercel.com/new](https://vercel.com/new) → **Import** the repository.
@@ -91,7 +141,7 @@ npm run typecheck
 ## Troubleshooting
 
 | Problem | Fix |
-|---|---|
+| :--- | :--- |
 | `Missing NEXT_PUBLIC_SUPABASE_URL` at runtime | `.env.local` is missing or not loaded — restart `npm run dev` after creating it. |
 | Signup succeeds but login says "Email not confirmed" | Supabase → Authentication → Sign In / Up → disable "Confirm email" (or confirm via the email link). |
 | `permission denied for table …` | The migration wasn't run, or was run partially — re-run `001_initial.sql` fully. |
@@ -106,55 +156,45 @@ npm run typecheck
 ```
 src/
   app/
-    page.tsx                  # Public landing page
-    login/  signup/           # Auth pages (Supabase Auth, email+password)
+    page.tsx                 # Public landing page
+    login/  signup/          # Auth pages (Supabase Auth, email+password)
     (app)/                   # Protected routes (guarded by src/proxy.ts)
-      layout.tsx              # Resolves business server-side, renders AppShell
+      layout.tsx             # Resolves business server-side, renders AppShell
       dashboard/ leads/ customers/ customers/[id]/
       tasks/ bookings/ invoices/ invoices/[id]/
       settings/ profile/
-  actions/                    # Server actions (mutations + validation + RLS)
+  actions/                   # Server actions (mutations + validation + RLS)
   components/
-    ui.tsx                    # Button, Input, Select, Modal, Table, Badge, …
-    Toast.tsx                 # Toast provider + useToast()
-    AppShell.tsx              # Sidebar (desktop) + drawer (mobile)
+    ui.tsx                   # Button, Input, Select, Modal, Table, Badge, …
+    Toast.tsx                # Toast provider + useToast()
+    AppShell.tsx             # Sidebar (desktop) + drawer (mobile)
   lib/
-    supabase/                 # Browser + server Supabase clients (anon key only)
-    business.ts               # requireBusiness() — server-side tenant resolution
-    validations.ts            # Hand-rolled validation (client + server)
-    pdf.ts                    # jsPDF invoice generator
-    currency.ts               # formatMoney() + currency list
-    activity.ts               # Activity-log helper
-    types.ts                  # DB types
+    supabase/                # Browser + server Supabase clients (anon key only)
+    business.ts              # requireBusiness() — server-side tenant resolution
+    validations.ts           # Hand-rolled validation (client + server)
+    pdf.ts                   # jsPDF invoice generator
+    currency.ts              # formatMoney() + currency list
+    activity.ts              # Activity-log helper
+    types.ts                 # DB types
 supabase/migrations/001_initial.sql
 ```
 
-### Data isolation
+---
 
-Every business-owned row carries `business_id`. RLS policies allow access only when
-`business_id` belongs to a business whose `owner_id = auth.uid()`. Server actions
-resolve the business via `requireBusiness()` on every request — client-supplied
-`business_id` values are never trusted.
+## Extension points
+
+V1 is deliberately structured so features plug in without rewrites:
+
+- **Subscriptions** — new `subscriptions` table + a `billing/` route; the Settings page already has a "Coming soon" integrations grid.
+- **AI assistant** — floating panel in `AppShell`, provider called server-side (key in env, never client).
+- **WhatsApp automation** — webhook route + `message_templates` table, queued outbox-style.
+- **Email reminders** — Vercel Cron + Supabase SMTP.
+- **Team members** — `business_members` table; widen RLS from `owner_id = auth.uid()` to "member of business".
+
+**Free-plan rule:** nothing in V1 costs money. PDFs render in the browser,
+charts are hand-rolled SVG/CSS, and logos are plain image URLs.
 
 ---
 
-## Future architecture — extension points
-
-V1 is deliberately structured so paid features plug in without rewrites:
-
-| Future feature | Where it plugs in |
-|---|---|
-| Stripe / Razorpay subscriptions | New `subscriptions` table (FK → `businesses`) + a `src/app/(app)/billing/` route; gate features with a `plan` column on `businesses`. The Settings page already has a "Coming soon" integrations grid. |
-| AI assistant | New `src/app/api/assistant/route.ts` calling the provider server-side (key in env, never client); UI as a floating panel in `AppShell`. |
-| WhatsApp automation | Webhook route `src/app/api/whatsapp/route.ts` + `message_templates` table; queue via `activity_logs`-style `outbox` table. |
-| Email reminders | Vercel Cron hitting `src/app/api/reminders/route.ts`; free via Supabase SMTP or Resend free tier. |
-| Recurring invoices | `recurrence` columns on `invoices` + a cron job that clones due invoices. |
-| Team members | `business_members(business_id, user_id, role)` table; widen RLS policies from `owner_id = auth.uid()` to "member of business". |
-| Multiple businesses | Drop the `businesses_owner_unique` constraint; add a business switcher in `AppShell` backed by a cookie. |
-| Custom branding | Extend `businesses` with `brand_color`, `invoice_template`; `generateInvoicePdf` already takes the business record. |
-| Client portal | New `(portal)` route group with token-based access (`portal_tokens` table), reusing the same actions. |
-| Advanced analytics | New `src/app/(app)/reports/` pages aggregating the existing tables; charts stay dependency-free. |
-
-**Free-plan rule:** nothing in V1 costs money. No Stripe/Razorpay keys, no WhatsApp
-API, no OpenAI key, no paid email/analytics/storage. PDFs render in the browser,
-charts are hand-rolled SVG/CSS, and logos are plain image URLs.
+**Aditya Pratap** — Creative Technologist
+Gorakhpur, India — github.com/adityapratap0077-cloud
