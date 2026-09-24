@@ -1,0 +1,18 @@
+{
+  "/(app)/bookings/page": "/bookings",
+  "/(app)/customers/[id]/page": "/customers/[id]",
+  "/(app)/customers/page": "/customers",
+  "/(app)/dashboard/page": "/dashboard",
+  "/(app)/invoices/[id]/page": "/invoices/[id]",
+  "/(app)/invoices/page": "/invoices",
+  "/(app)/leads/page": "/leads",
+  "/(app)/profile/page": "/profile",
+  "/(app)/settings/page": "/settings",
+  "/(app)/tasks/page": "/tasks",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/auth/callback/route": "/auth/callback",
+  "/login/page": "/login",
+  "/page": "/",
+  "/signup/page": "/signup"
+}

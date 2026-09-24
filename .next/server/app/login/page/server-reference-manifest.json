@@ -1,0 +1,27 @@
+{
+  "node": {
+    "409f643306e5bacef1e759f527a64fb3b9c2d8b5cc": {
+      "workers": {
+        "app/login/page": {
+          "moduleId": 3070,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "exportedName": "signInAction",
+      "filename": "src/actions/auth.ts"
+    },
+    "00a049a90b93cbbfa9efbe8d597b1285db79c78211": {
+      "workers": {
+        "app/login/page": {
+          "moduleId": 3070,
+          "async": false,
+          "codeHash": null
+        }
+      },
+      "exportedName": "signInWithGoogleAction",
+      "filename": "src/actions/auth.ts"
+    }
+  },
+  "edge": {}
+}

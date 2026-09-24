@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { validateCredentials, type FieldErrors } from '@/lib/validations';
 
@@ -74,20 +75,33 @@ export async function signOutAction(): Promise<void> {
   redirect('/login');
 }
 
-const PRODUCTION_URL = 'https://bizos-sca3jyoi1-adityapratap0077-cloud.vercel.app';
-
 /**
- * Starts Google OAuth. Redirects the browser to Google's consent screen.
+ * Starts Google OAuth. Returns the Supabase authorize URL; the caller must
+ * navigate to it client-side (window.location.assign). Server-action
+ * redirect() to an external URL is unreliable across runtimes, and the
+ * callback target is derived from the current request host so the same build
+ * works on every Vercel deployment (no hardcoded production URL).
  * On return, /auth/callback exchanges the code for a session.
  * New OAuth users get a profile + default business from the
  * public.handle_new_user() database trigger — same as email signups.
  */
-export async function signInWithGoogleAction(): Promise<void> {
+export async function signInWithGoogleAction(): Promise<{
+  ok: boolean;
+  url?: string;
+  error?: string;
+}> {
   const supabase = await createClient();
-  const redirectTo =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000/auth/callback'
-      : `${PRODUCTION_URL}/auth/callback`;
+
+  const hdrs = await headers();
+  const host =
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/^https?:\/\//, '') ??
+    hdrs.get('x-forwarded-host') ??
+    hdrs.get('host') ??
+    'localhost:3000';
+  const proto =
+    hdrs.get('x-forwarded-proto') ??
+    (host.startsWith('localhost') ? 'http' : 'https');
+  const redirectTo = `${proto}://${host}/auth/callback`;
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
@@ -96,10 +110,12 @@ export async function signInWithGoogleAction(): Promise<void> {
 
   if (error || !data?.url) {
     // Most common cause: the Google provider isn't enabled in Supabase yet.
-    const message =
-      error?.message ??
-      'Could not start Google sign-in. Please try again or use email sign-in.';
-    redirect(`/login?error=${encodeURIComponent(message)}`);
+    return {
+      ok: false,
+      error:
+        error?.message ??
+        'Could not start Google sign-in. Please try again or use email sign-in.',
+    };
   }
-  redirect(data.url);
+  return { ok: true, url: data.url };
 }

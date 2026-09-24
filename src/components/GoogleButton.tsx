@@ -47,10 +47,23 @@ export default function GoogleButton({
   async function handleClick() {
     if (loading) return;
     setLoading(true);
-    // Both success and failure redirect server-side (redirect() throws),
-    // so the line below only resolves on an unexpected error.
-    await signInWithGoogleAction();
-    setLoading(false);
+    try {
+      const result = await signInWithGoogleAction();
+      if (result.ok && result.url) {
+        // Navigate client-side: server-action redirect() to an external
+        // OAuth URL is unreliable, so the browser navigates itself.
+        window.location.assign(result.url);
+        return;
+      }
+      window.location.assign(
+        `/login?error=${encodeURIComponent(
+          result.error ??
+            'Could not start Google sign-in. Please try again or use email sign-in.',
+        )}`,
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
