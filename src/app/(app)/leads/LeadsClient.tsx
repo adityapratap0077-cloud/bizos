@@ -252,8 +252,8 @@ export default function LeadsClient({ leads, currency }: { leads: Lead[]; curren
       header: 'Name',
       render: (lead) => (
         <div>
-          <p className="font-medium text-gray-900">{lead.name}</p>
-          {lead.company && <p className="text-xs text-gray-500">{lead.company}</p>}
+          <p className="font-medium text-ink-900">{lead.name}</p>
+          {lead.company && <p className="text-xs text-ink-500">{lead.company}</p>}
         </div>
       ),
     },
@@ -261,14 +261,14 @@ export default function LeadsClient({ leads, currency }: { leads: Lead[]; curren
       header: 'Contact',
       render: (lead) => (
         <div className="text-xs">
-          {lead.email ? <p>{lead.email}</p> : <p className="text-gray-400">—</p>}
-          {lead.phone && <p className="text-gray-500">{lead.phone}</p>}
+          {lead.email ? <p>{lead.email}</p> : <p className="text-ink-400">—</p>}
+          {lead.phone && <p className="text-ink-500">{lead.phone}</p>}
         </div>
       ),
     },
     {
       header: 'Service',
-      render: (lead) => lead.service_interested ?? <span className="text-gray-400">—</span>,
+      render: (lead) => lead.service_interested ?? <span className="text-ink-400">—</span>,
     },
     {
       header: 'Value',
@@ -276,7 +276,7 @@ export default function LeadsClient({ leads, currency }: { leads: Lead[]; curren
         lead.estimated_value != null ? (
           <span className="font-medium">{formatMoney(lead.estimated_value, currency)}</span>
         ) : (
-          <span className="text-gray-400">—</span>
+          <span className="text-ink-400">—</span>
         ),
     },
     {
@@ -310,7 +310,7 @@ export default function LeadsClient({ leads, currency }: { leads: Lead[]; curren
             variant="ghost"
             onClick={() => setDeleteTarget(lead)}
             aria-label={`Delete ${lead.name}`}
-            className="text-red-600 hover:bg-red-50 hover:text-red-700"
+            className="text-clay-600 hover:bg-clay-50 hover:text-clay-700"
           >
             Delete
           </Button>

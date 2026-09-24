@@ -253,11 +253,11 @@ export default function TasksClient({
       header: 'Title',
       render: (t) => (
         <div>
-          <p className={`font-medium text-gray-900 ${t.status === 'Completed' ? 'line-through text-gray-400' : ''}`}>
+          <p className={`font-medium text-ink-900 ${t.status === 'Completed' ? 'line-through text-ink-400' : ''}`}>
             {t.title}
           </p>
           {t.description && (
-            <p className="mt-0.5 max-w-xs truncate text-xs text-gray-500">{t.description}</p>
+            <p className="mt-0.5 max-w-xs truncate text-xs text-ink-500">{t.description}</p>
           )}
         </div>
       ),
@@ -268,7 +268,7 @@ export default function TasksClient({
         t.customer_name ? (
           <span className="text-xs">{t.customer_name}</span>
         ) : (
-          <span className="text-gray-400">—</span>
+          <span className="text-ink-400">—</span>
         ),
     },
     {
@@ -277,7 +277,7 @@ export default function TasksClient({
         const overdue = t.due_date != null && t.due_date < today && t.status !== 'Completed';
         return (
           <span
-            className={`whitespace-nowrap text-xs ${overdue ? 'font-semibold text-red-600' : ''}`}
+            className={`whitespace-nowrap text-xs ${overdue ? 'font-semibold text-clay-600' : ''}`}
           >
             {formatDate(t.due_date)}
           </span>
@@ -305,7 +305,7 @@ export default function TasksClient({
             variant="ghost"
             onClick={() => setDeleteTarget(t)}
             aria-label={`Delete ${t.title}`}
-            className="text-red-600 hover:bg-red-50 hover:text-red-700"
+            className="text-clay-600 hover:bg-clay-50 hover:text-clay-700"
           >
             Delete
           </Button>
@@ -324,7 +324,7 @@ export default function TasksClient({
 
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div
-          className="inline-flex w-fit rounded-lg border border-gray-200 bg-white p-1 shadow-sm"
+          className="inline-flex w-fit rounded-lg border border-ink-200 bg-white p-1 shadow-sm"
           role="group"
           aria-label="Filter tasks by due date"
         >
@@ -336,8 +336,8 @@ export default function TasksClient({
               aria-pressed={view === f.value}
               className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
                 view === f.value
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-600 hover:bg-gray-100'
+                  ? 'bg-pine-600 text-white'
+                  : 'text-ink-600 hover:bg-ink-100'
               }`}
             >
               {f.label}

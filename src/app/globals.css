@@ -4,27 +4,158 @@
 
 :root {
   color-scheme: light;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-body {
-  @apply bg-gray-50 text-gray-900 antialiased;
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
-/* Subtle scrollbar for dropdowns / modal bodies */
+body {
+  @apply bg-ink-50 font-sans text-ink-900 antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display type: tight, confident. Italic descenders get clearance via leading. */
+.font-display {
+  letter-spacing: -0.02em;
+}
+
+/* Tabular numerals everywhere numbers appear */
+.tnum {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Thin scrollbars for dropdowns / modal bodies / drawers */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #cbcdc2 transparent;
+}
 .thin-scroll::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 .thin-scroll::-webkit-scrollbar-thumb {
-  @apply rounded bg-gray-300;
+  @apply rounded-full bg-ink-300;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-/* Focus visibility for keyboard users */
+/* Focus visibility — pine ring, always visible for keyboard users */
 :focus-visible {
-  outline: 2px solid #4f46e5;
+  outline: 2px solid #0e7a4e;
   outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Tactile press feedback on every pressable (Emil: buttons must feel responsive) */
+.pressable {
+  transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out),
+    border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out),
+    color 160ms var(--ease-out);
+}
+.pressable:active {
+  transform: scale(0.97);
+}
+@media (hover: none) {
+  .pressable:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Hover states only where hover exists (no sticky hover on Android) */
+@media (hover: hover) and (pointer: fine) {
+  .hoverable {
+    transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out),
+      border-color 160ms var(--ease-out), transform 200ms var(--ease-out);
+  }
+}
+
+/* Stagger helper for list entrances: style="--i:2" */
+.stagger-in {
+  animation: fade-up 0.5s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 55ms);
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal / drawer entrances */
+.anim-scale-in {
+  animation: scale-in 0.22s var(--ease-out) both;
+}
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+.anim-fade {
+  animation: fade 0.18s ease-out both;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Respect reduced motion: keep fades, drop movement */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .stagger-in,
+  .anim-scale-in {
+    animation: fade 0.2s ease-out both;
+  }
+  .pressable:active {
+    transform: none;
+  }
+}
+
+/* Form inputs: no placeholder-as-label; placeholders stay subtle but legible */
+input::placeholder,
+textarea::placeholder {
+  @apply text-ink-400;
+}
+
+/* Native date/select controls inherit type */
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* Hide number input spinners for a cleaner ledger feel */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }

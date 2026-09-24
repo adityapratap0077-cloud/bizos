@@ -2,17 +2,17 @@ import { requireBusiness } from '@/lib/business';
 import { formatMoney } from '@/lib/currency';
 import { formatDate, LEAD_BADGE_COLORS, timeAgo } from '@/lib/display';
 import { LEAD_STATUSES, type ActivityLog, type LeadStatus } from '@/lib/types';
-import { Badge, Card, EmptyState, PageHeader, StatCard } from '@/components/ui';
+import { Badge, Card, EmptyState, PageHeader, SectionTitle, StatCard } from '@/components/ui';
 
 export const metadata = { title: 'Dashboard' };
 
 const STATUS_BAR_COLORS: Record<LeadStatus, string> = {
-  New: 'bg-blue-500',
-  Contacted: 'bg-yellow-400',
-  Qualified: 'bg-purple-500',
-  Proposal: 'bg-indigo-500',
-  Won: 'bg-green-500',
-  Lost: 'bg-red-500',
+  New: 'bg-sky-500',
+  Contacted: 'bg-gold-400',
+  Qualified: 'bg-grape-500',
+  Proposal: 'bg-pine-600',
+  Won: 'bg-pine-500',
+  Lost: 'bg-clay-500',
 };
 
 const MONTH_NAMES = [
@@ -144,29 +144,31 @@ export default async function DashboardPage() {
       <PageHeader title="Dashboard" subtitle="A snapshot of your business today." />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <StatCard label="Total leads" value={String(totalLeads)} href="/leads" />
-        <StatCard label="Active customers" value={String(activeCustomers)} href="/customers" />
-        <StatCard label="Upcoming bookings" value={String(upcomingBookings)} href="/bookings" />
+        <StatCard index={0} label="Total leads" value={String(totalLeads)} href="/leads" />
+        <StatCard index={1} label="Active customers" value={String(activeCustomers)} href="/customers" />
+        <StatCard index={2} label="Upcoming bookings" value={String(upcomingBookings)} href="/bookings" />
         <StatCard
+          index={3}
           label="Pending invoices"
           value={String(pendingInvoices.length)}
           sub={formatMoney(pendingInvoiceSum, business.currency)}
           href="/invoices"
         />
         <StatCard
+          index={4}
           label="Total invoice value"
           value={formatMoney(totalInvoiceValue, business.currency)}
           sub="Pending + paid"
         />
-        <StatCard label="Tasks due today" value={String(tasksDueToday)} href="/tasks" />
+        <StatCard index={5} label="Tasks due today" value={String(tasksDueToday)} href="/tasks" />
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         {/* Leads by status — horizontal bars */}
         <Card>
-          <h2 className="mb-4 text-base font-semibold text-gray-900">Leads by status</h2>
+          <div className="mb-5"><SectionTitle>Leads by status</SectionTitle></div>
           {totalLeads === 0 ? (
-            <p className="py-6 text-center text-sm text-gray-400">
+            <p className="py-6 text-center text-sm text-ink-400">
               No lead data yet. Add your first lead to see the breakdown.
             </p>
           ) : (
@@ -178,13 +180,13 @@ export default async function DashboardPage() {
                     <div className="w-24 shrink-0">
                       <Badge color={LEAD_BADGE_COLORS[status]}>{status}</Badge>
                     </div>
-                    <div className="h-3 flex-1 overflow-hidden rounded-full bg-gray-100">
+                    <div className="h-3 flex-1 overflow-hidden rounded-full bg-ink-100">
                       <div
                         className={`h-full rounded-full ${STATUS_BAR_COLORS[status]}`}
                         style={{ width: `${(count / maxStatusCount) * 100}%` }}
                       />
                     </div>
-                    <span className="w-8 shrink-0 text-right text-sm font-medium text-gray-700">
+                    <span className="tnum w-8 shrink-0 text-right font-mono text-[13px] font-semibold text-ink-800">
                       {count}
                     </span>
                   </div>
@@ -197,18 +199,18 @@ export default async function DashboardPage() {
         {/* Invoices last 6 months — vertical bars, paid vs pending */}
         <Card>
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-base font-semibold text-gray-900">Invoices — last 6 months</h2>
-            <div className="flex items-center gap-3 text-xs text-gray-500">
+            <div><SectionTitle>Invoices — last 6 months</SectionTitle></div>
+            <div className="flex items-center gap-3 text-xs text-ink-500">
               <span className="inline-flex items-center gap-1">
-                <span className="inline-block h-2.5 w-2.5 rounded-sm bg-green-500" /> Paid
+                <span className="inline-block h-2.5 w-2.5 rounded-sm bg-pine-500" /> Paid
               </span>
               <span className="inline-flex items-center gap-1">
-                <span className="inline-block h-2.5 w-2.5 rounded-sm bg-amber-400" /> Pending
+                <span className="inline-block h-2.5 w-2.5 rounded-sm bg-gold-400" /> Pending
               </span>
             </div>
           </div>
           {!hasInvoiceData ? (
-            <p className="py-6 text-center text-sm text-gray-400">
+            <p className="py-6 text-center text-sm text-ink-400">
               No invoice data in the last 6 months.
             </p>
           ) : (
@@ -218,21 +220,21 @@ export default async function DashboardPage() {
                   <div key={m.key} className="flex h-full flex-1 flex-col items-center justify-end">
                     <div className="flex h-full w-full items-end justify-center gap-1.5">
                       <div
-                        className="w-5 rounded-t bg-green-500"
+                        className="w-5 rounded-t bg-pine-500"
                         style={{ height: `${(m.paid / maxMonthValue) * 100}%` }}
                         title={`Paid: ${formatMoney(m.paid, business.currency)}`}
                         role="img"
                         aria-label={`${m.label} paid ${formatMoney(m.paid, business.currency)}`}
                       />
                       <div
-                        className="w-5 rounded-t bg-amber-400"
+                        className="w-5 rounded-t bg-gold-400"
                         style={{ height: `${(m.pending / maxMonthValue) * 100}%` }}
                         title={`Pending: ${formatMoney(m.pending, business.currency)}`}
                         role="img"
                         aria-label={`${m.label} pending ${formatMoney(m.pending, business.currency)}`}
                       />
                     </div>
-                    <span className="mt-2 text-xs font-medium text-gray-500">{m.label}</span>
+                    <span className="mt-2 text-xs font-medium text-ink-500">{m.label}</span>
                   </div>
                 ))}
               </div>
@@ -243,19 +245,19 @@ export default async function DashboardPage() {
 
       {/* Recent activity */}
       <Card className="mt-6">
-        <h2 className="mb-4 text-base font-semibold text-gray-900">Recent activity</h2>
+        <div className="mb-5"><SectionTitle>Recent activity</SectionTitle></div>
         {activity.length === 0 ? (
           <EmptyState
             title="No activity yet"
             description="Actions you take across leads, customers, tasks, bookings and invoices will show up here."
           />
         ) : (
-          <ul className="divide-y divide-gray-100">
+          <ul className="divide-y divide-ink-100">
             {activity.map((a) => (
               <li key={a.id} className="flex items-start justify-between gap-4 py-2.5">
-                <p className="text-sm text-gray-700">{a.action}</p>
+                <p className="text-sm text-ink-700">{a.action}</p>
                 <span
-                  className="shrink-0 text-xs text-gray-400"
+                  className="shrink-0 font-mono text-[11px] text-ink-400"
                   title={formatDate(a.created_at)}
                 >
                   {timeAgo(a.created_at)}

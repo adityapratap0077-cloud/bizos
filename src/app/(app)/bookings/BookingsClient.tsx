@@ -23,6 +23,7 @@ import {
 } from '@/actions/bookings';
 import { validateBooking, type FieldErrors } from '@/lib/validations';
 import { formatMoney } from '@/lib/currency';
+import type { BadgeColor } from '@/lib/display';
 import {
   BOOKING_STATUSES,
   type Booking,
@@ -36,10 +37,10 @@ interface CustomerOption {
 
 /* ── Helpers ────────────────────────────────────────────────────────────── */
 
-function badgeColor(status: BookingStatus): 'blue' | 'green' | 'red' {
-  if (status === 'Completed') return 'green';
-  if (status === 'Cancelled') return 'red';
-  return 'blue';
+function badgeColor(status: BookingStatus): BadgeColor {
+  if (status === 'Completed') return 'pine';
+  if (status === 'Cancelled') return 'clay';
+  return 'gold';
 }
 
 function formatTime(t: string): string {
@@ -309,8 +310,8 @@ export default function BookingsClient({
       />
 
       {customers.length === 0 && (
-        <Card className="mb-6 border-amber-200 bg-amber-50">
-          <p className="text-sm text-amber-800">
+        <Card className="mb-6 border-gold-200 bg-gold-50">
+          <p className="text-sm text-gold-800">
             You need at least one customer before you can create a booking. Add
             one from the Customers page first.
           </p>
@@ -354,7 +355,7 @@ export default function BookingsClient({
         <div className="flex flex-col gap-8">
           {groups.map(([date, list]) => (
             <section key={date} aria-label={formatDateHeading(date)}>
-              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">
+              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink-500">
                 {formatDateHeading(date)}
               </h2>
               <div className="flex flex-col gap-3">
@@ -362,18 +363,18 @@ export default function BookingsClient({
                   <Card key={b.id} className="!p-4">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                       <div className="min-w-0">
-                        <p className="text-sm font-semibold text-gray-900">
+                        <p className="text-sm font-semibold text-ink-900">
                           {formatTime(b.start_time)} – {formatTime(b.end_time)}
                         </p>
-                        <p className="mt-0.5 truncate text-sm text-gray-700">{b.service}</p>
-                        <p className="mt-0.5 truncate text-xs text-gray-500">
+                        <p className="mt-0.5 truncate text-sm text-ink-700">{b.service}</p>
+                        <p className="mt-0.5 truncate text-xs text-ink-500">
                           {b.customer_name ?? 'Unknown customer'}
                           {b.notes ? ` · ${b.notes}` : ''}
                         </p>
                       </div>
                       <div className="flex flex-wrap items-center gap-2 sm:justify-end">
                         {b.price !== null && (
-                          <span className="text-sm font-semibold text-gray-900">
+                          <span className="text-sm font-semibold text-ink-900">
                             {formatMoney(b.price, currency)}
                           </span>
                         )}
@@ -384,7 +385,7 @@ export default function BookingsClient({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="!text-red-600 hover:!bg-red-50"
+                          className="!text-clay-600 hover:!bg-clay-50"
                           onClick={() => setPendingDelete(b)}
                         >
                           Delete

@@ -64,22 +64,22 @@ export default function CustomersClient({ customers }: { customers: Customer[] }
       header: 'Name',
       render: (c) => (
         <div>
-          <p className="font-medium text-gray-900">{c.name}</p>
-          {c.company && <p className="text-xs text-gray-500">{c.company}</p>}
+          <p className="font-medium text-ink-900">{c.name}</p>
+          {c.company && <p className="text-xs text-ink-500">{c.company}</p>}
         </div>
       ),
     },
     {
       header: 'Email',
-      render: (c) => (c.email ? <span className="text-xs">{c.email}</span> : <span className="text-gray-400">—</span>),
+      render: (c) => (c.email ? <span className="text-xs">{c.email}</span> : <span className="text-ink-400">—</span>),
     },
     {
       header: 'Phone',
-      render: (c) => (c.phone ? <span className="text-xs">{c.phone}</span> : <span className="text-gray-400">—</span>),
+      render: (c) => (c.phone ? <span className="text-xs">{c.phone}</span> : <span className="text-ink-400">—</span>),
     },
     {
       header: 'Company',
-      render: (c) => c.company ?? <span className="text-gray-400">—</span>,
+      render: (c) => c.company ?? <span className="text-ink-400">—</span>,
     },
     {
       header: 'Created',
@@ -101,7 +101,7 @@ export default function CustomersClient({ customers }: { customers: Customer[] }
             variant="ghost"
             onClick={() => setDeleteTarget(c)}
             aria-label={`Delete ${c.name}`}
-            className="text-red-600 hover:bg-red-50 hover:text-red-700"
+            className="text-clay-600 hover:bg-clay-50 hover:text-clay-700"
           >
             Delete
           </Button>

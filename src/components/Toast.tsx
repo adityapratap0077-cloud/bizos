@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useState } from 'react';
+import { CheckCircle, WarningCircle, Info, type Icon as PhosphorIcon } from '@phosphor-icons/react';
 
 type ToastType = 'success' | 'error' | 'info';
 
@@ -18,10 +19,10 @@ export function useToast() {
   return useContext(ToastContext);
 }
 
-const toastStyles: Record<ToastType, string> = {
-  success: 'bg-green-600 text-white',
-  error: 'bg-red-600 text-white',
-  info: 'bg-gray-900 text-white',
+const toastConfig: Record<ToastType, { cls: string; icon: PhosphorIcon }> = {
+  success: { cls: 'bg-pine-700 text-white', icon: CheckCircle },
+  error: { cls: 'bg-clay-700 text-white', icon: WarningCircle },
+  info: { cls: 'bg-ink-900 text-white', icon: Info },
 };
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
@@ -40,17 +41,21 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {children}
       <div
         aria-live="polite"
-        className="pointer-events-none fixed bottom-4 right-4 z-[100] flex w-[calc(100%-2rem)] max-w-sm flex-col gap-2"
+        className="pointer-events-none fixed inset-x-4 bottom-4 z-[100] flex flex-col gap-2 sm:left-auto sm:right-6 sm:w-96 sm:max-w-[calc(100vw-3rem)]"
       >
-        {toasts.map((t) => (
-          <div
-            key={t.id}
-            role="status"
-            className={`pointer-events-auto rounded-lg px-4 py-3 text-sm font-medium shadow-lg ${toastStyles[t.type]}`}
-          >
-            {t.message}
-          </div>
-        ))}
+        {toasts.map((t) => {
+          const { cls, icon: Icon } = toastConfig[t.type];
+          return (
+            <div
+              key={t.id}
+              role="status"
+              className={`anim-scale-in pointer-events-auto flex items-start gap-2.5 rounded-control px-4 py-3 text-sm font-medium shadow-pop ${cls}`}
+            >
+              <Icon className="mt-0.5 h-5 w-5 shrink-0" weight="fill" aria-hidden="true" />
+              <span className="leading-snug">{t.message}</span>
+            </div>
+          );
+        })}
       </div>
     </ToastContext.Provider>
   );

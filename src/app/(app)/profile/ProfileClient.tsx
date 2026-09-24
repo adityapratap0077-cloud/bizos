@@ -66,7 +66,7 @@ export default function ProfileClient({
           <Input label="Email" value={email} readOnly disabled />
         </form>
         <div className="mt-5 flex items-center justify-between">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-ink-500">
             Member since {formatMemberSince(profile?.created_at)}
           </p>
           <Button type="submit" form="profile-form" loading={saving}>
@@ -76,8 +76,8 @@ export default function ProfileClient({
       </Card>
 
       <Card className="max-w-xl">
-        <h2 className="mb-1 font-semibold text-gray-900">Sign out</h2>
-        <p className="mb-4 text-sm text-gray-500">
+        <h2 className="mb-1 font-semibold text-ink-900">Sign out</h2>
+        <p className="mb-4 text-sm text-ink-500">
           You will be signed out of BizOS on this device.
         </p>
         <form action={signOutAction}>

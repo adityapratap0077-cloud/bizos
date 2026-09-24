@@ -40,11 +40,14 @@ export default function LoginForm() {
 
   return (
     <div className="mx-auto mt-16 max-w-md">
-      <div className="mb-6 text-center">
-        <Link href="/" className="text-2xl font-bold tracking-tight text-gray-900">
-          BizOS
+      <div className="mb-8 text-center">
+        <Link href="/" className="inline-flex flex-col items-center gap-3" aria-label="BizOS home">
+          <span className="flex h-12 w-12 items-center justify-center rounded-surface bg-pine-600 font-display text-xl font-bold text-white shadow-card" aria-hidden="true">
+            B
+          </span>
+          <span className="font-display text-2xl font-bold tracking-tight text-ink-950">BizOS</span>
         </Link>
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-[15px] text-ink-500">
           Sign in to manage your business dashboard.
         </p>
       </div>
@@ -53,7 +56,7 @@ export default function LoginForm() {
           {formError && (
             <div
               role="alert"
-              className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+              className="rounded-lg border border-clay-200 bg-clay-50 px-4 py-3 text-sm text-clay-700"
             >
               {formError}
             </div>
@@ -84,9 +87,9 @@ export default function LoginForm() {
             {loading ? 'Signing in…' : 'Sign in'}
           </Button>
         </form>
-        <p className="mt-6 text-center text-sm text-gray-500">
+        <p className="mt-6 text-center text-sm text-ink-500">
           Don&apos;t have an account?{' '}
-          <Link href="/signup" className="font-medium text-indigo-600 hover:text-indigo-700">
+          <Link href="/signup" className="font-medium text-pine-600 hover:text-pine-700">
             Sign up
           </Link>
         </p>

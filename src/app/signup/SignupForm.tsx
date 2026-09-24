@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { signUpAction } from '@/actions/auth';
 import { validateCredentials, type FieldErrors } from '@/lib/validations';
 import { Button, Card, Input } from '@/components/ui';
+import { EnvelopeSimple } from '@phosphor-icons/react';
+import { CheckCircle } from '@phosphor-icons/react';
 import { useToast } from '@/components/Toast';
 
 export default function SignupForm() {
@@ -54,24 +56,11 @@ export default function SignupForm() {
     return (
       <div className="mx-auto mt-16 max-w-md">
         <Card className="text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-            <svg
-              className="h-6 w-6 text-green-600"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4.5 12.75l6 6 9-13.5"
-              />
-            </svg>
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-pine-100">
+            <EnvelopeSimple className="h-6 w-6 text-pine-700" weight="duotone" aria-hidden="true" />
           </div>
-          <h1 className="text-xl font-semibold text-gray-900">Check your email</h1>
-          <p className="mt-2 text-sm text-gray-600">
+          <h1 className="text-xl font-semibold text-ink-900">Check your email</h1>
+          <p className="mt-2 text-sm text-ink-600">
             We sent a confirmation link to <span className="font-medium">{email}</span>.
             Click the confirmation link, then sign in.
           </p>
@@ -87,11 +76,14 @@ export default function SignupForm() {
 
   return (
     <div className="mx-auto mt-16 max-w-md">
-      <div className="mb-6 text-center">
-        <Link href="/" className="text-2xl font-bold tracking-tight text-gray-900">
-          BizOS
+      <div className="mb-8 text-center">
+        <Link href="/" className="inline-flex flex-col items-center gap-3" aria-label="BizOS home">
+          <span className="flex h-12 w-12 items-center justify-center rounded-surface bg-pine-600 font-display text-xl font-bold text-white shadow-card" aria-hidden="true">
+            B
+          </span>
+          <span className="font-display text-2xl font-bold tracking-tight text-ink-950">BizOS</span>
         </Link>
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-[15px] text-ink-500">
           Create your free account. No credit card required.
         </p>
       </div>
@@ -100,7 +92,7 @@ export default function SignupForm() {
           {formError && (
             <div
               role="alert"
-              className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+              className="rounded-lg border border-clay-200 bg-clay-50 px-4 py-3 text-sm text-clay-700"
             >
               {formError}
             </div>
@@ -153,9 +145,9 @@ export default function SignupForm() {
             {loading ? 'Creating account…' : 'Create free account'}
           </Button>
         </form>
-        <p className="mt-6 text-center text-sm text-gray-500">
+        <p className="mt-6 text-center text-sm text-ink-500">
           Already have an account?{' '}
-          <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-700">
+          <Link href="/login" className="font-medium text-pine-600 hover:text-pine-700">
             Sign in
           </Link>
         </p>

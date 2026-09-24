@@ -170,15 +170,15 @@ export default function SettingsClient({ business }: { business: Business }) {
         </div>
       </Card>
 
-      <h2 className="mb-1 text-lg font-semibold text-gray-900">Coming soon</h2>
-      <p className="mb-4 text-sm text-gray-500">
+      <h2 className="mb-1 text-lg font-semibold text-ink-900">Coming soon</h2>
+      <p className="mb-4 text-sm text-ink-500">
         These are on the roadmap. Nothing here will charge you — BizOS V1 is free.
       </p>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {COMING_SOON.map((item) => (
           <Card key={item.name} className="flex flex-col">
-            <h3 className="font-semibold text-gray-900">{item.name}</h3>
-            <p className="mb-4 mt-1 flex-1 text-sm text-gray-500">{item.description}</p>
+            <h3 className="font-semibold text-ink-900">{item.name}</h3>
+            <p className="mb-4 mt-1 flex-1 text-sm text-ink-500">{item.description}</p>
             <Button variant="secondary" disabled>
               Coming soon
             </Button>

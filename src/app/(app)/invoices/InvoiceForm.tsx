@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { Button, Input, Modal, Select, Textarea } from '@/components/ui';
+import { X } from '@phosphor-icons/react';
 import { useToast } from '@/components/Toast';
 import {
   createInvoice,
@@ -232,19 +233,19 @@ export default function InvoiceForm({
 
         <div>
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700">Line items *</span>
+            <span className="text-sm font-medium text-ink-700">Line items *</span>
             <Button type="button" variant="secondary" size="sm" onClick={addLine}>
               Add row
             </Button>
           </div>
           {errors.items && (
-            <p role="alert" className="mb-2 text-xs text-red-600">
+            <p role="alert" className="mb-2 text-xs text-clay-600">
               {errors.items}
             </p>
           )}
           <div className="flex flex-col gap-2">
             {lines.map((line, i) => (
-              <div key={i} className="rounded-lg border border-gray-200 p-3">
+              <div key={i} className="rounded-lg border border-ink-200 p-3">
                 <Input
                   aria-label={`Item ${i + 1} description`}
                   placeholder="Description"
@@ -273,7 +274,7 @@ export default function InvoiceForm({
                     onChange={(e) => updateLine(i, { unit_price: e.target.value })}
                     error={errors[`items.${i}.unit_price`]}
                   />
-                  <div className="whitespace-nowrap pb-2 text-sm font-medium text-gray-700">
+                  <div className="whitespace-nowrap pb-2 text-sm font-medium text-ink-700">
                     {formatMoney(totals.lineAmounts[i] ?? 0, business.currency)}
                   </div>
                   <Button
@@ -283,11 +284,9 @@ export default function InvoiceForm({
                     onClick={() => removeLine(i)}
                     disabled={lines.length <= 1}
                     aria-label={`Remove item ${i + 1}`}
-                    className="!text-red-600 hover:!bg-red-50"
+                    className="!text-clay-600 hover:!bg-clay-50"
                   >
-                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-                    </svg>
+                    <X className="h-4 w-4" weight="bold" aria-hidden="true" />
                   </Button>
                 </div>
               </div>
@@ -317,22 +316,22 @@ export default function InvoiceForm({
           />
         </div>
 
-        <div className="rounded-lg bg-gray-50 p-4 text-sm">
-          <div className="flex justify-between text-gray-600">
+        <div className="rounded-lg bg-ink-50 p-4 text-sm">
+          <div className="flex justify-between text-ink-600">
             <span>Subtotal</span>
             <span>{formatMoney(totals.subtotal, business.currency)}</span>
           </div>
-          <div className="mt-1 flex justify-between text-gray-600">
+          <div className="mt-1 flex justify-between text-ink-600">
             <span>
               {business.tax_name || 'Tax'} ({Number(taxRate || 0)}%)
             </span>
             <span>{formatMoney(totals.taxAmount, business.currency)}</span>
           </div>
-          <div className="mt-1 flex justify-between text-gray-600">
+          <div className="mt-1 flex justify-between text-ink-600">
             <span>Discount</span>
             <span>−{formatMoney(totals.discountValue, business.currency)}</span>
           </div>
-          <div className="mt-2 flex justify-between border-t border-gray-200 pt-2 text-base font-bold text-gray-900">
+          <div className="mt-2 flex justify-between border-t border-ink-200 pt-2 text-base font-bold text-ink-900">
             <span>Total</span>
             <span>{formatMoney(totals.total, business.currency)}</span>
           </div>

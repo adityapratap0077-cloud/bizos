@@ -10,39 +10,39 @@ import type {
   TaskStatus,
 } from './types';
 
-type BadgeColor = 'gray' | 'green' | 'yellow' | 'red' | 'blue' | 'indigo' | 'purple';
+export type BadgeColor = 'ink' | 'pine' | 'gold' | 'clay' | 'sky' | 'grape';
 
 export const LEAD_BADGE_COLORS: Record<LeadStatus, BadgeColor> = {
-  New: 'blue',
-  Contacted: 'yellow',
-  Qualified: 'purple',
-  Proposal: 'indigo',
-  Won: 'green',
-  Lost: 'red',
+  New: 'sky',
+  Contacted: 'gold',
+  Qualified: 'grape',
+  Proposal: 'ink',
+  Won: 'pine',
+  Lost: 'clay',
 };
 
 export const TASK_BADGE_COLORS: Record<TaskStatus, BadgeColor> = {
-  Todo: 'gray',
-  'In progress': 'yellow',
-  Completed: 'green',
+  Todo: 'ink',
+  'In progress': 'gold',
+  Completed: 'pine',
 };
 
 export const PRIORITY_BADGE_COLORS: Record<TaskPriority, BadgeColor> = {
-  Low: 'gray',
-  Medium: 'yellow',
-  High: 'red',
+  Low: 'ink',
+  Medium: 'gold',
+  High: 'clay',
 };
 
 export const BOOKING_BADGE_COLORS: Record<BookingStatus, BadgeColor> = {
-  Scheduled: 'yellow',
-  Completed: 'green',
-  Cancelled: 'red',
+  Scheduled: 'gold',
+  Completed: 'pine',
+  Cancelled: 'clay',
 };
 
 export const INVOICE_BADGE_COLORS: Record<InvoiceStatus, BadgeColor> = {
-  Draft: 'gray',
-  Pending: 'yellow',
-  Paid: 'green',
+  Draft: 'ink',
+  Pending: 'gold',
+  Paid: 'pine',
 };
 
 /** Format a YYYY-MM-DD (or ISO) date for display. Returns '—' for empty. */

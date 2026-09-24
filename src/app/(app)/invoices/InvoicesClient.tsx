@@ -28,6 +28,7 @@ import {
   type InvoiceStatus,
 } from '@/lib/types';
 import InvoiceForm, { type EditingInvoice } from './InvoiceForm';
+import type { BadgeColor } from '@/lib/display';
 
 interface BusinessDefaults {
   tax_rate: number;
@@ -35,10 +36,10 @@ interface BusinessDefaults {
   currency: string;
 }
 
-function badgeColor(status: InvoiceStatus): 'gray' | 'yellow' | 'green' {
-  if (status === 'Paid') return 'green';
-  if (status === 'Pending') return 'yellow';
-  return 'gray';
+function badgeColor(status: InvoiceStatus): BadgeColor {
+  if (status === 'Paid') return 'pine';
+  if (status === 'Pending') return 'gold';
+  return 'ink';
 }
 
 function formatDate(iso: string | null): string {
@@ -141,7 +142,7 @@ export default function InvoicesClient({
       render: (inv) => (
         <Link
           href={`/invoices/${inv.id}`}
-          className="font-mono text-sm font-medium text-indigo-600 hover:text-indigo-800"
+          className="font-mono text-sm font-medium text-pine-600 hover:text-pine-800"
         >
           {inv.invoice_number}
         </Link>
@@ -163,7 +164,7 @@ export default function InvoicesClient({
       header: 'Total',
       className: 'text-right',
       render: (inv) => (
-        <span className="font-semibold text-gray-900">
+        <span className="font-semibold text-ink-900">
           {formatMoney(inv.total, business.currency)}
         </span>
       ),
@@ -178,7 +179,7 @@ export default function InvoicesClient({
         <div className="flex flex-wrap items-center gap-1">
           <Link
             href={`/invoices/${inv.id}`}
-            className="rounded-md px-2 py-1 text-sm font-medium text-indigo-600 hover:bg-indigo-50"
+            className="rounded-md px-2 py-1 text-sm font-medium text-pine-600 hover:bg-pine-50"
           >
             View
           </Link>
@@ -201,7 +202,7 @@ export default function InvoicesClient({
           <Button
             variant="ghost"
             size="sm"
-            className="!text-red-600 hover:!bg-red-50"
+            className="!text-clay-600 hover:!bg-clay-50"
             onClick={() => setPendingDelete(inv)}
           >
             Delete
@@ -224,8 +225,8 @@ export default function InvoicesClient({
       />
 
       {customers.length === 0 && (
-        <Card className="mb-6 border-amber-200 bg-amber-50">
-          <p className="text-sm text-amber-800">
+        <Card className="mb-6 border-gold-200 bg-gold-50">
+          <p className="text-sm text-gold-800">
             You need at least one customer before you can create an invoice. Add
             one from the Customers page first.
           </p>

@@ -27,11 +27,12 @@ import type {
   InvoiceStatus,
 } from '@/lib/types';
 import InvoiceForm from '../InvoiceForm';
+import type { BadgeColor } from '@/lib/display';
 
-function badgeColor(status: InvoiceStatus): 'gray' | 'yellow' | 'green' {
-  if (status === 'Paid') return 'green';
-  if (status === 'Pending') return 'yellow';
-  return 'gray';
+function badgeColor(status: InvoiceStatus): BadgeColor {
+  if (status === 'Paid') return 'pine';
+  if (status === 'Pending') return 'gold';
+  return 'ink';
 }
 
 function formatDate(iso: string | null): string {
@@ -132,7 +133,7 @@ export default function InvoiceDetailClient({
       header: 'Amount',
       className: 'text-right',
       render: (it) => (
-        <span className="font-medium text-gray-900">{formatMoney(it.amount, currency)}</span>
+        <span className="font-medium text-ink-900">{formatMoney(it.amount, currency)}</span>
       ),
     },
   ];
@@ -161,15 +162,15 @@ export default function InvoiceDetailClient({
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="flex flex-col gap-6 lg:col-span-2">
           <Card>
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink-500">
               Bill to
             </h2>
-            <p className="font-semibold text-gray-900">
+            <p className="font-semibold text-ink-900">
               {customer?.name ?? 'Unknown customer'}
             </p>
-            {customer?.company && <p className="text-sm text-gray-600">{customer.company}</p>}
+            {customer?.company && <p className="text-sm text-ink-600">{customer.company}</p>}
             {billToLines.map((line, i) => (
-              <p key={i} className="text-sm text-gray-600">
+              <p key={i} className="text-sm text-ink-600">
                 {line}
               </p>
             ))}
@@ -186,53 +187,53 @@ export default function InvoiceDetailClient({
 
           {invoice.notes && (
             <Card>
-              <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500">
+              <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink-500">
                 Notes
               </h2>
-              <p className="whitespace-pre-wrap text-sm text-gray-700">{invoice.notes}</p>
+              <p className="whitespace-pre-wrap text-sm text-ink-700">{invoice.notes}</p>
             </Card>
           )}
         </div>
 
         <div className="flex flex-col gap-6">
           <Card>
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink-500">
               Summary
             </h2>
             <dl className="flex flex-col gap-2 text-sm">
               <div className="flex justify-between">
-                <dt className="text-gray-500">Subtotal</dt>
-                <dd className="text-gray-900">{formatMoney(invoice.subtotal, currency)}</dd>
+                <dt className="text-ink-500">Subtotal</dt>
+                <dd className="text-ink-900">{formatMoney(invoice.subtotal, currency)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-gray-500">
+                <dt className="text-ink-500">
                   {taxName} ({invoice.tax_rate}%)
                 </dt>
-                <dd className="text-gray-900">{formatMoney(invoice.tax_amount, currency)}</dd>
+                <dd className="text-ink-900">{formatMoney(invoice.tax_amount, currency)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-gray-500">Discount</dt>
-                <dd className="text-gray-900">{formatMoney(invoice.discount, currency)}</dd>
+                <dt className="text-ink-500">Discount</dt>
+                <dd className="text-ink-900">{formatMoney(invoice.discount, currency)}</dd>
               </div>
-              <div className="mt-1 flex justify-between border-t border-gray-200 pt-2 text-base font-bold">
-                <dt className="text-gray-900">Total</dt>
-                <dd className="text-gray-900">{formatMoney(invoice.total, currency)}</dd>
+              <div className="mt-1 flex justify-between border-t border-ink-200 pt-2 text-base font-bold">
+                <dt className="text-ink-900">Total</dt>
+                <dd className="text-ink-900">{formatMoney(invoice.total, currency)}</dd>
               </div>
             </dl>
-            <dl className="mt-4 flex flex-col gap-2 border-t border-gray-100 pt-4 text-sm">
+            <dl className="mt-4 flex flex-col gap-2 border-t border-ink-100 pt-4 text-sm">
               <div className="flex justify-between">
-                <dt className="text-gray-500">Issue date</dt>
-                <dd className="text-gray-900">{formatDate(invoice.issue_date)}</dd>
+                <dt className="text-ink-500">Issue date</dt>
+                <dd className="text-ink-900">{formatDate(invoice.issue_date)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-gray-500">Due date</dt>
-                <dd className="text-gray-900">{formatDate(invoice.due_date)}</dd>
+                <dt className="text-ink-500">Due date</dt>
+                <dd className="text-ink-900">{formatDate(invoice.due_date)}</dd>
               </div>
             </dl>
           </Card>
 
           <Card>
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink-500">
               Actions
             </h2>
             <div className="flex flex-col gap-2">
