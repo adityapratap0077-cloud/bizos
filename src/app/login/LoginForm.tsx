@@ -5,14 +5,19 @@ import Link from 'next/link';
 import { signInAction } from '@/actions/auth';
 import { validateCredentials, type FieldErrors } from '@/lib/validations';
 import { Button, Card, Input } from '@/components/ui';
+import GoogleButton from '@/components/GoogleButton';
 import { useToast } from '@/components/Toast';
 
-export default function LoginForm() {
+export default function LoginForm({
+  initialError = '',
+}: {
+  initialError?: string;
+}) {
   const { toast } = useToast();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [formError, setFormError] = useState('');
+  const [formError, setFormError] = useState(initialError);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
@@ -52,6 +57,14 @@ export default function LoginForm() {
         </p>
       </div>
       <Card>
+        <GoogleButton />
+        <div className="my-6 flex items-center gap-3" aria-hidden="true">
+          <span className="h-px flex-1 bg-ink-200" />
+          <span className="text-xs font-medium uppercase tracking-wider text-ink-400">
+            or continue with email
+          </span>
+          <span className="h-px flex-1 bg-ink-200" />
+        </div>
         <form onSubmit={handleSubmit} noValidate className="space-y-4">
           {formError && (
             <div

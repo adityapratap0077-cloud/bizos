@@ -73,3 +73,33 @@ export async function signOutAction(): Promise<void> {
   await supabase.auth.signOut();
   redirect('/login');
 }
+
+const PRODUCTION_URL = 'https://bizos-sca3jyoi1-adityapratap0077-cloud.vercel.app';
+
+/**
+ * Starts Google OAuth. Redirects the browser to Google's consent screen.
+ * On return, /auth/callback exchanges the code for a session.
+ * New OAuth users get a profile + default business from the
+ * public.handle_new_user() database trigger — same as email signups.
+ */
+export async function signInWithGoogleAction(): Promise<void> {
+  const supabase = await createClient();
+  const redirectTo =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000/auth/callback'
+      : `${PRODUCTION_URL}/auth/callback`;
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo },
+  });
+
+  if (error || !data?.url) {
+    // Most common cause: the Google provider isn't enabled in Supabase yet.
+    const message =
+      error?.message ??
+      'Could not start Google sign-in. Please try again or use email sign-in.';
+    redirect(`/login?error=${encodeURIComponent(message)}`);
+  }
+  redirect(data.url);
+}

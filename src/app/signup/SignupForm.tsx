@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { signUpAction } from '@/actions/auth';
 import { validateCredentials, type FieldErrors } from '@/lib/validations';
 import { Button, Card, Input } from '@/components/ui';
+import GoogleButton from '@/components/GoogleButton';
 import { EnvelopeSimple } from '@phosphor-icons/react';
 import { CheckCircle } from '@phosphor-icons/react';
 import { useToast } from '@/components/Toast';
@@ -88,6 +89,14 @@ export default function SignupForm() {
         </p>
       </div>
       <Card>
+        <GoogleButton label="Sign up with Google" />
+        <div className="my-6 flex items-center gap-3" aria-hidden="true">
+          <span className="h-px flex-1 bg-ink-200" />
+          <span className="text-xs font-medium uppercase tracking-wider text-ink-400">
+            or sign up with email
+          </span>
+          <span className="h-px flex-1 bg-ink-200" />
+        </div>
         <form onSubmit={handleSubmit} noValidate className="space-y-4">
           {formError && (
             <div
