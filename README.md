@@ -1,3 +1,10 @@
+<p>
+  <a href="https://bizos-gamma.vercel.app"><img src="https://img.shields.io/badge/Live-Demo-brightgreen?style=flat-square" alt="Live Demo" /></a>
+  <img src="https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase" />
+  <img src="https://img.shields.io/github/license/adityapratap0077-cloud/bizos?style=flat-square" alt="License" />
+</p>
+
 # BizOS — Run your business from one simple dashboard
 
 BizOS is a free, zero-cost **Business OS** for freelancers and small businesses:
