@@ -5,14 +5,14 @@
   <img src="https://img.shields.io/github/license/adityapratap0077-cloud/bizos?style=flat-square" alt="License" />
 </p>
 
-# BizOS — Run your business from one simple dashboard
+# BizOS: Run your business from one simple dashboard
 
 BizOS is a free, zero-cost **Business OS** for freelancers and small businesses:
 manage **leads, customers, tasks, bookings and invoices** from one simple dashboard.
 
 - **Stack:** Next.js 16 (App Router) · TypeScript (strict) · Tailwind CSS · Supabase (Auth + PostgreSQL + Row Level Security) · Vercel
-- **Cost:** $0 — only free-tier services, no paid APIs, no paid dependencies
-- **Runtime dependencies:** `@supabase/supabase-js`, `@supabase/ssr`, `jspdf` — nothing else
+- **Cost:** $0, only free-tier services, no paid APIs, no paid dependencies
+- **Runtime dependencies:** `@supabase/supabase-js`, `@supabase/ssr`, `jspdf`, nothing else
 
 ---
 
@@ -55,9 +55,9 @@ This creates all tables (`profiles`, `businesses`, `leads`, `customers`, `tasks`
 `bookings`, `invoices`, `invoice_items`, `activity_logs`), enables Row Level
 Security with owner-only policies, and installs two triggers:
 
-- `on_auth_user_created` — when a user signs up, a `profiles` row and a default
+- `on_auth_user_created`: when a user signs up, a `profiles` row and a default
   `businesses` row are created automatically.
-- `set_updated_at_trigger` — keeps `updated_at` fresh on every update.
+- `set_updated_at_trigger`: keeps `updated_at` fresh on every update.
 
 It also installs `next_invoice_number(business_id)`, a race-safe per-business
 invoice-number generator (`INV-0001`, `INV-0002`, …).
@@ -71,7 +71,7 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000):
 
 1. **Sign up** with email + password (check your inbox if email confirmation is on).
-2. **Sign in** — your business is provisioned automatically.
+2. **Sign in**: your business is provisioned automatically.
 3. Add your business details in **Settings**, then add a **lead**, convert it to a
    **customer**, create a **task**, schedule a **booking**, raise an **invoice**,
    mark it **paid**, and watch the **dashboard** light up.
@@ -88,7 +88,7 @@ npm run typecheck
 2. Go to [vercel.com/new](https://vercel.com/new) → **Import** the repository.
 3. Add the two environment variables (`NEXT_PUBLIC_SUPABASE_URL`,
    `NEXT_PUBLIC_SUPABASE_ANON_KEY`) in the Vercel project settings.
-4. **Deploy.** No build configuration is needed — the defaults work.
+4. **Deploy.** No build configuration is needed, the defaults work.
 
 > If sign-in redirects loop after deploying, check that the env vars are set on
 > the **Production** environment in Vercel and redeploy.
@@ -99,12 +99,12 @@ npm run typecheck
 
 | Problem | Fix |
 |---|---|
-| `Missing NEXT_PUBLIC_SUPABASE_URL` at runtime | `.env.local` is missing or not loaded — restart `npm run dev` after creating it. |
+| `Missing NEXT_PUBLIC_SUPABASE_URL` at runtime | `.env.local` is missing or not loaded, restart `npm run dev` after creating it. |
 | Signup succeeds but login says "Email not confirmed" | Supabase → Authentication → Sign In / Up → disable "Confirm email" (or confirm via the email link). |
-| `permission denied for table …` | The migration wasn't run, or was run partially — re-run `001_initial.sql` fully. |
-| Invoice numbers collide / `next_invoice_number` fails | The function needs the `authenticated` grant from the migration — re-run the Grants section. |
-| PDF download does nothing | Check the browser console; invoice PDFs are generated fully client-side with jsPDF — no server needed. |
-| `npm run build` type errors after editing | Run `npm run typecheck` and fix the reported file/line — the build is strict. |
+| `permission denied for table …` | The migration wasn't run, or was run partially, re-run `001_initial.sql` fully. |
+| Invoice numbers collide / `next_invoice_number` fails | The function needs the `authenticated` grant from the migration, re-run the Grants section. |
+| PDF download does nothing | Check the browser console; invoice PDFs are generated fully client-side with jsPDF, no server needed. |
+| `npm run build` type errors after editing | Run `npm run typecheck` and fix the reported file/line, the build is strict. |
 
 ---
 
@@ -127,7 +127,7 @@ src/
     AppShell.tsx              # Sidebar (desktop) + drawer (mobile)
   lib/
     supabase/                 # Browser + server Supabase clients (anon key only)
-    business.ts               # requireBusiness() — server-side tenant resolution
+    business.ts               # requireBusiness(): server-side tenant resolution
     validations.ts            # Hand-rolled validation (client + server)
     pdf.ts                    # jsPDF invoice generator
     currency.ts               # formatMoney() + currency list
@@ -140,12 +140,12 @@ supabase/migrations/001_initial.sql
 
 Every business-owned row carries `business_id`. RLS policies allow access only when
 `business_id` belongs to a business whose `owner_id = auth.uid()`. Server actions
-resolve the business via `requireBusiness()` on every request — client-supplied
+resolve the business via `requireBusiness()` on every request, client-supplied
 `business_id` values are never trusted.
 
 ---
 
-## Future architecture — extension points
+## Future architecture: extension points
 
 V1 is deliberately structured so paid features plug in without rewrites:
 
