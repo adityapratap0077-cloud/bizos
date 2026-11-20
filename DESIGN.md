@@ -1,10 +1,10 @@
-# DESIGN.md — BizOS remake ("Ledger")
+# DESIGN.md: BizOS remake ("Ledger")
 
 Durable visual decisions for the BizOS front-end remake. This replaces the original's generic indigo/gray SaaS look; it does not change product truth (see PRODUCT.md).
 
 ## Design read
 
-**"Operate"** — a precise, confident, ledger-inspired tool for a one-person business. The aesthetic reference is a well-kept ledger: tabular figures, clear hierarchy, honest weight. Calm, fast, trustworthy. Never playful, never gamified.
+**"Operate"**: a precise, confident, ledger-inspired tool for a one-person business. The aesthetic reference is a well-kept ledger: tabular figures, clear hierarchy, honest weight. Calm, fast, trustworthy. Never playful, never gamified.
 
 ## Palette (Tailwind tokens, `tailwind.config.js`)
 
@@ -24,9 +24,9 @@ Rules:
 
 ## Typography
 
-- **Display:** Space Grotesk (headings, hero, logo wordmark) — geometric confidence.
-- **Body/UI:** Inter Tight (labels, form fields, tables) — neutral and legible.
-- **Figures:** JetBrains Mono (amounts, invoice numbers, counts, timestamps) — ledger feel, tabular numerals.
+- **Display:** Space Grotesk (headings, hero, logo wordmark): geometric confidence.
+- **Body/UI:** Inter Tight (labels, form fields, tables): neutral and legible.
+- **Figures:** JetBrains Mono (amounts, invoice numbers, counts, timestamps): ledger feel, tabular numerals.
 - `.tnum` utility forces tabular-nums where proportional text wraps figures.
 - Semantic case: page titles 24–32px/700; section titles 15–17px/650; labels 12–13px uppercase mono where ledger-like.
 
@@ -41,7 +41,7 @@ Rules:
 
 - Purposeful only. Fast press feedback (`.pressable`: scale .98 on active).
 - Short staggered entry reveals on dashboards and landing (`stagger`, `fade-up` keyframes); landing hero elements rise 12–20px over ~600ms.
-- One restrained marquee (pipeline strip) — the single ambient motion on the landing.
+- One restrained marquee (pipeline strip), the single ambient motion on the landing.
 - `prefers-reduced-motion` disables all of it.
 - Lenis smooth scrolling on the landing page only (app pages use native scroll).
 - Duration rule: entrances ≤ 700ms, exits ~200ms, easing `cubic-bezier(.22,1,.36,1)`.
@@ -59,13 +59,13 @@ Rules:
 
 ## What changed vs the original
 
-- indigo → pine; gray/slate → ink; green → pine; amber/yellow → gold; red → clay; blue → sky; purple → grape — remapped across every component and page.
-- `ui.tsx` rebuilt: buttons, inputs, cards, badges, modals, empty states, page headers, stat cards, tables — same APIs, new system.
+- indigo → pine; gray/slate → ink; green → pine; amber/yellow → gold; red → clay; blue → sky; purple → grape, remapped across every component and page.
+- `ui.tsx` rebuilt: buttons, inputs, cards, badges, modals, empty states, page headers, stat cards, tables: same APIs, new system.
 - AppShell rebuilt: ink-black sidebar, Phosphor icon family, branded mark, mobile drawer.
-- Landing page rebuilt from scratch (`LandingClient.tsx`): asymmetric split hero with real miniature app preview, pipeline marquee, feature bento, numbered how-it-works, pricing/roadmap, FAQ — all claims drawn from PRODUCT.md.
+- Landing page rebuilt from scratch (`LandingClient.tsx`): asymmetric split hero with real miniature app preview, pipeline marquee, feature bento, numbered how-it-works, pricing/roadmap, FAQ, all claims drawn from PRODUCT.md.
 - New: `PRODUCT.md`, `DESIGN.md`.
 
 ## What was deliberately NOT done
 
-- No Three.js/shaders/Vanta/liquid-glass in the operational app — decoration would harm clarity in an Operate-mode tool.
+- No Three.js/shaders/Vanta/liquid-glass in the operational app, decoration would harm clarity in an Operate-mode tool.
 - No marketing claims invented: the landing only states modules, free tier, and features that exist.
