@@ -1,4 +1,4 @@
-# PRODUCT.md — BizOS (remake)
+# PRODUCT.md: BizOS (remake)
 
 ## What it is
 
@@ -20,7 +20,7 @@ BizOS is a free business operating system for freelancers and small businesses: 
 
 ## Confirmed claims (safe to state in UI)
 
-- "Free" — no paid tier exists; signup says "No credit card required".
+- "Free": no paid tier exists; signup says "No credit card required".
 - Modules: Leads, Customers, Tasks, Bookings, Invoices. Nothing else.
 - This remake changes the interface only. All data behavior, validation, RLS, and PDF logic are preserved from the original.
 
